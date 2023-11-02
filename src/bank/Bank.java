@@ -9,7 +9,6 @@ import java.io.InputStreamReader;
 - Look into potential storage of details
 - have the user make a purchase (lottery ticket or car)
 - display banking statment after purchase in .txt document
-- Fix while statment not calling lottery class when X is in bounds
 */
 
 /*
@@ -28,6 +27,7 @@ public class Bank {
         int Check = 0; // Int for count in do statment for input
         int Count = 0; // Int for while statment on yes or no in choice
         int CTicket = 0; //Int used to store num of tickets confirmed
+        int TCheck = 0; //Int for count in do statment for num of tickets
         String Item = "null";
         
         do {
@@ -87,6 +87,21 @@ public class Bank {
             String Amount = br.readLine();
             int CAmount = Integer.parseInt(Amount);
             CTicket = CAmount;
+            
+            do {
+                if (CTicket >= 1 && CTicket <= 20) { // Logic to check that user has bought tickets within bounds
+                System.out.println("Order of " + CTicket + " lottery tickets confirmed");
+                buy1.tickets(CTicket); // Runs lottery class using user input from user
+                TCheck++;
+            } else {
+                System.out.println("Order invalid you can only buy between 1 and 20 tickets at the moment");
+                System.out.println("How many lotter tickets would you like: ");
+                String TAmount = br.readLine();
+                int TCAmount = Integer.parseInt(TAmount);
+                CTicket = TCAmount;
+            }
+            } while (TCheck < 1); // Exits if do statement once Ticket order has been confirmed
+               
         } else if (Item.equalsIgnoreCase("car")) { // If user selects car
             System.out.println("Confirmed time to customise you car");
              // Car class logic here
@@ -95,19 +110,6 @@ public class Bank {
             System.exit(0);
         }
         } while (Item == "lottery tickets" || Item == "car");
-        
-        do {
-            if (CTicket >= 1 && CTicket <= 20) { // Logic to check that user has bought tickets within bounds
-            System.out.println("Order of " + CTicket + " lottery tickets confirmed");
-            buy1.tickets(CTicket); // Runs lottery class using user input
-            } else {
-                System.out.println("Order invalid you can only buy between 1 and 20 tickets at the moment");
-                System.out.println("How many lotter tickets would you like: ");
-                String TAmount = br.readLine();
-                int TCAmount = Integer.parseInt(TAmount);
-                CTicket = TCAmount;
-            }
-        } while (CTicket > 1 && CTicket >= 21); // Problem, doesn't call lottery class if amount is within bounds
-         
+            
     }
 }
